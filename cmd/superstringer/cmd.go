@@ -17,6 +17,7 @@ var (
 	linecomment = flag.Bool("linecomment", false, "use line comment text as printed text when present")
 	buildTags   = flag.String("tags", "", "comma-separated list of build tags to apply")
 	genReverse  = flag.Bool("reverse", false, "also generate a reverse FromString function")
+	genValid    = flag.Bool("valid", false, "also generate a Valid() method")
 )
 
 // Usage is a replacement usage function for the flags package.
@@ -84,6 +85,9 @@ func main() {
 	// Run generate for each type.
 	for _, typeName := range types {
 		g.generate(typeName)
+		if *genValid {
+			g.GenerateValidMethod(typeName)
+		}
 		if *genReverse {
 			g.GenerateFromString(typeName)
 		}
